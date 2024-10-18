@@ -1,0 +1,258 @@
+#%%
+''' 
+Creator: JID Espenorio
+Requestor: Data Analyst - Autodist
+Created: July 9, 2024
+Modified/Improved Date: September 2, 2024 '''
+#####################################################################################################################
+import pandas as pd 
+
+# Define a class for the Autodistribution template
+class AutodistTemp:
+    def __init__(self, make, model, year, mpn, sku, pro_type, cylinder_piston_type,  vendor, vendorcode, vendornotes, 
+                 cylinder_kit_mpn, cylinder_sku, cylinder_type, cylinderkit_mpn, cylinderkit_sku, cylinderkit_qty, 
+                 cylinderkit_piston_mpn, cylinderkit_piston_sku, cylinderkit_piston_qty, cylinderkit_topendgasket_mpn,
+                 cylinderkit_topendgasket_sku, cylinderkit_topendgasket_qty, cylinderkit_topbearing_mpn, cylinderkit_topbearing_sku,
+                 cylinderkit_topbearing_qty):
+        self.make = make
+        self.model = model
+        self.year = year
+        
+##CYLINDER BRACKET
+
+        self.mpn = mpn
+        self.sku = sku
+        self.pro_type = pro_type
+        self.cylinder_piston_type = cylinder_piston_type
+        self.vendor = vendor
+        self.vendorcode = vendorcode
+        self.vendornotes = vendornotes
+        self.cylinder_kit_mpn = cylinder_kit_mpn
+        self.cylinder_sku = cylinder_sku
+        self.cylinder_type = cylinder_type
+
+##CYLINDER KIT BRACKET    
+        
+        self.cylinderkit_mpn = cylinderkit_mpn
+        self.cylinderkit_sku = cylinderkit_sku
+        self.cylinderkit_qty = cylinderkit_qty
+        
+        self.cylinderkit_piston_mpn = cylinderkit_piston_mpn
+        self.cylinderkit_piston_sku = cylinderkit_piston_sku
+        self.cylinderkit_piston_qty = cylinderkit_piston_qty
+        
+        self.cylinderkit_topendgasket_mpn = cylinderkit_topendgasket_mpn
+        self.cylinderkit_topendgasket_sku = cylinderkit_topendgasket_sku
+        self.cylinderkit_topendgasket_qty = cylinderkit_topendgasket_qty
+        
+        self.cylinderkit_topbearing_mpn = cylinderkit_topbearing_mpn
+        self.cylinderkit_topbearing_sku = cylinderkit_topbearing_sku
+        self.cylinderkit_topbearing_qty = cylinderkit_topbearing_qty
+        
+    def to_dict(self):
+        return {
+            'Make': self.make,
+            'Model': self.model,
+            'Vendor': self.vendor,
+            'Vendor Code': self.vendorcode,
+            'Group Type': self.pro_type,
+            'Cylinder Piston Type': self.cylinder_piston_type,
+            'Cylinder - SKU': self.sku,
+            'Cylinder - MPN': self.mpn,
+            'Year': self.year,
+            'Kit# - MPN': self.cylinder_kit_mpn,
+            'Kit # - SKU': self.cylinder_sku,
+            'Group-Type': self.cylinder_type,
+
+    ####Cylinder Kits Bracket            
+    
+            'Cylinder Kit - MPN': self.cylinderkit_mpn,
+            'Cylinder Kit - SKU': self.cylinderkit_sku,
+            'Cylinder Kit - Qty': self.cylinderkit_qty,
+            
+            'Piston - SKU': self.cylinderkit_piston_mpn,
+            'Piston - MPN': self.cylinderkit_piston_sku,
+            'Piston - Qty': self.cylinderkit_piston_qty,
+            
+            'TopEnd Gasket - MPN': self.cylinderkit_topendgasket_mpn,
+            'TopEnd Gasket - SKU': self.cylinderkit_topendgasket_sku,
+            'TopEnd Gasket - Qty': self.cylinderkit_topendgasket_qty,
+            
+            'Top Bearing - MPN': self.cylinderkit_topbearing_mpn,
+            'Top Bearing - SKU': self.cylinderkit_topbearing_sku,
+            'Top Bearing - Qty': self.cylinderkit_topbearing_qty,
+            
+            'Vendor Notes': self.vendornotes
+            
+        }
+#%%
+###################################################################################################################
+#2nd Part
+# Define a class for generating Autodistribution data
+class AutodistGenerator:
+    def __init__(self, autodist_template, list_models, years):
+        self.autodist_template = autodist_template
+        self.list_models = list_models
+        self.years = years
+    
+    def generate_autodist(self):
+        data = []
+        for model in self.list_models:
+            for year in self.years:
+                autodist_data = {
+                    'Make': self.autodist_template.make,
+                    'Model': model,
+                    'Year': year,
+                    'Vendor': self.autodist_template.vendor,
+                    'Vendor Code': self.autodist_template.vendorcode,
+            #### Cylinder Bracket
+                    'Cylinder - MPN': self.autodist_template.mpn,
+                    'Cylinder - SKU': self.autodist_template.sku,
+                    'Group Type': self.autodist_template.pro_type,
+                    'Cylinder Piston Type': self.autodist_template.cylinder_piston_type,
+                    'Kit# - MPN': self.autodist_template.cylinder_kit_mpn,
+                    'Kit# - SKU': self.autodist_template.cylinder_sku,
+                    'Group-Type': self.autodist_template.cylinder_type,
+                    
+            #### Cylinder Kits Bracket
+                    'Cylinder Kit - MPN': self.autodist_template.cylinderkit_mpn,
+                    'Cylinder Kit - SKU': self.autodist_template.cylinderkit_sku,
+                    'Cylinder Kit - Qty': self.autodist_template.cylinderkit_qty,
+                    
+                    'Piston - MPN': self.autodist_template.cylinderkit_piston_mpn,
+                    'Piston - SKU': self.autodist_template.cylinderkit_piston_sku,
+                    'Piston - Qty': self.autodist_template.cylinderkit_piston_qty,
+                    
+                    'TopEnd Gasket - MPN': self.autodist_template.cylinderkit_topendgasket_mpn,
+                    'TopEnd Gasket - SKU': self.autodist_template.cylinderkit_topendgasket_sku,
+                    'TopEnd Gasket - Qty': self.autodist_template.cylinderkit_topendgasket_qty,
+                    
+                    'Top Bearing - MPN': self.autodist_template.cylinderkit_topbearing_mpn,
+                    'Top Bearing - SKU': self.autodist_template.cylinderkit_topbearing_sku,
+                    'Top Bearing - Qty': self.autodist_template.cylinderkit_topbearing_qty,
+                    
+                    'Vendor Notes': self.autodist_template.vendornotes
+                    
+                }
+                data.append(autodist_data)
+        return pd.DataFrame(data)
+#%%    
+#####################################################################################################################
+# Initialize the Autodist template
+autodist_template = AutodistTemp(
+    make='Arctic Cat',
+    model='All types of models',
+    year=None,
+    
+#### Cylinders Bracket
+  
+    mpn='SM-09606',
+    sku='128586',
+    pro_type='Cylinder',
+    cylinder_piston_type='STANDARD',
+    vendornotes='STANDARD CYLINDER KIT | BORE SIZE:74MM; SLEEVE O.D.87MM; HEIGHT:137/108.5MM; OEM: 3007-479;', 
+    vendor='NACH',
+    cylinder_kit_mpn='SM-09606K',
+    cylinder_sku='128587',
+    vendorcode='NACHMAN INTERNATIONAL CO. LTD',
+    cylinder_type='Cylinder Kits',
+    
+#### Cylinder Kits Bracket
+    
+    cylinderkit_mpn='SM-09606',
+    cylinderkit_sku='128586',
+    cylinderkit_qty='2',
+    
+    cylinderkit_piston_mpn='SM-09220',
+    cylinderkit_piston_sku='9220PS',
+    cylinderkit_piston_qty='2',
+    
+    cylinderkit_topendgasket_mpn='09-710270',
+    cylinderkit_topendgasket_sku='125773',
+    cylinderkit_topendgasket_qty='1',
+    
+    cylinderkit_topbearing_mpn='SM-09357-1',
+    cylinderkit_topbearing_sku='120130',
+    cylinderkit_topbearing_qty='2'
+)
+
+# List of models
+list_models = [
+
+'Bearcat 2000 LT', 
+'Bearcat 2000 LT ES', 
+'Bearcat 2000 XT', 
+'Bearcat 2000 XT ES', 
+'Bearcat 2000 XTE', 
+'Bearcat 570',
+'Bearcat 570 Long Track',
+'Bearcat 570 XT', 
+'Bearcat 570 XTE', 
+'F570',
+'Lynx 2000', 
+'Lynx 2000 ES', 
+'Lynx 2000 LT ES',
+'Mountain Cat 570s',
+'Panther 570',
+'T570',
+'Z 570', 
+'Z 570 ESR', 
+'Z 570 LX', 
+'Z 570 SS', 
+
+
+]
+
+# List of years
+years = list(range(2002, 2021))
+
+# Generate the autodistribution data
+generator = AutodistGenerator(autodist_template, list_models, years)
+final_df = generator.generate_autodist()
+
+# Display the final DataFrame
+#print(final_df) # or just use final_df to display in Notebook
+final_df.head(5)
+#%%
+file_path =r"C:\Users\User\Desktop\nachmann\TODAY -TASK\(10)SECTION 09 - CYLINDERS 09122024\Merge\SM-09606.csv"
+final_df.to_csv(file_path, index = False)
+
+#%%
+## Connecting to Postgresql
+#%%
+file_path =r"C:\Users\User\Desktop\nachmann\TODAY -TASK\Antigravity Batteries Fitment 2024\MERGE\AG-ATZ7-RSv89- KTM All Engine Sizes.csv"
+final_df.to_csv(file_path, index = False)
+#%%
+#activating the environment
+%load_ext sql
+#%%
+''#Reloading the environment if possible''
+%reload_ext sql
+#%%
+#Credentials in mylocal database
+
+%sql postgresql://postgres:Password01@localhost:5432/Autodist_Project
+#%%
+'''Testing the waters'''
+# Establish the connection to PostgreSQL
+%sql postgresql://postgres:Password01@localhost:5432/Autodist_Project
+
+# Run the query
+%sql SELECT * FROM public."new_table9_19" LIMIT 10;
+#%%
+#import necessary library
+import pandas as pd
+
+# Establish the connection to PostgreSQL
+%sql postgresql://postgres:Password01@localhost:5432/Autodist_Project
+
+# Run the query and fetch the result into a DataFrame
+result = %sql SELECT * FROM public."new_table9_19" LIMIT 10;
+
+# Convert the result to a pandas DataFrame
+df = pd.DataFrame(result, columns=['Make', 'Model', 'Year', 'Vendor', 'Vendor Code', 'Position', 'MPN', 'SKU', 'Product Type', 'Vendor Notes'])
+
+# Set pandas to display all columns
+pd.set_option('display.max_columns', None)
+
+df
